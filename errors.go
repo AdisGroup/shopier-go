@@ -18,11 +18,11 @@ var (
 
 // APIError represents a non-2xx HTTP response from the Shopier REST API.
 type APIError struct {
-	StatusCode int    `json:"status_code"`
-	ErrorCode  string `json:"error,omitempty"`
-	Message    string `json:"message,omitempty"`
-	Detail     string `json:"error_description,omitempty"`
-	RawBody    []byte `json:"-"`
+	StatusCode int         `json:"status_code"`
+	ErrorCode  string      `json:"error,omitempty"`
+	Message    string      `json:"message,omitempty"`
+	Detail     string      `json:"error_description,omitempty"`
+	RawBody    []byte      `json:"-"`
 	Header     http.Header `json:"-"`
 }
 

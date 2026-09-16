@@ -114,13 +114,13 @@ type OrderUpdateRequest struct {
 
 // OrderTransaction provides financial breakdown details for an order payment.
 type OrderTransaction struct {
-	OrderID     string             `json:"orderId"`
-	Type        string             `json:"type"`
-	Description string             `json:"description,omitempty"`
-	DateCreated string             `json:"dateCreated"`
-	Gross       TransactionAmount  `json:"gross"`
-	Fee         TransactionFee     `json:"fee"`
-	Net         TransactionAmount  `json:"net"`
+	OrderID     string            `json:"orderId"`
+	Type        string            `json:"type"`
+	Description string            `json:"description,omitempty"`
+	DateCreated string            `json:"dateCreated"`
+	Gross       TransactionAmount `json:"gross"`
+	Fee         TransactionFee    `json:"fee"`
+	Net         TransactionAmount `json:"net"`
 }
 
 // TransactionAmount contains amount details in original and settlement currencies.
