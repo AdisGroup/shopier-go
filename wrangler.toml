@@ -1,3 +1,4 @@
 name = "shopier-go-docs"
 compatibility_date = "2024-09-16"
 pages_build_output_dir = "docs/.vitepress/dist"
+assets = { directory = "./docs/.vitepress/dist" }
