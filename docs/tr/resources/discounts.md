@@ -57,3 +57,48 @@ if err != nil {
 }
 fmt.Println("Kampanya ID:", autoDisc.ID)
 ```
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `DiscountCode` (Kupon Kodu Modeli) {#kupon-kodu-modeli-discountcode}
+
+Ödeme adımında müşterinin girdiği indirim kuponlarını temsil eder.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Benzersiz indirim kodu numarası |
+| `Code` | `string` | `code` | Kupon kodu metni (örn. `"HOSGELDIN20"`) |
+| `Type` | `string` | `type` | `"percent"` (yüzdelik) veya `"amount"` (sabit tutar) |
+| `AmountOff` | `string` | `amountOff` | Sabit indirim tutarı (`type == "amount"` ise) |
+| `PercentOff` | `string` | `percentOff` | Yüzdelik indirim oranı (`type == "percent"` ise) |
+| `AmountMinimum` | `string` | `amountMinimum` | Kuponun geçerli olması için gereken minimum sepet tutarı |
+| `Currency` | `string` | `currency` | Para birimi (`"TRY"`, `"USD"` vb.) |
+| `NumAvailable` | `int` | `numAvailable` | Toplam kullanım hakkı kotası |
+| `NumUsed` | `int` | `numUsed` | Kullanılan adet sayısı |
+| `ExpiresAt` | `string` | `expiresAt` | Kuponun son kullanma tarihi |
+| `DateCreated` | `string` | `dateCreated` | Kuponun oluşturulma tarihi |
+
+---
+
+### `AutomaticDiscount` (Otomatik İndirim Modeli) {#otomatik-indirim-modeli-automaticdiscount}
+
+Sepet koşulları sağlandığında otomatik uygulanan promosyon kampanyalarını temsil eder.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Benzersiz kampanya numarası |
+| `Title` | `string` | `title` | Kampanya başlığı |
+| `Scope` | `string` | `scope` | Kapsam: `"all"` (tümü), `"selectedProducts"`, `"selectedCategories"` |
+| `ProductIDs` | `[]string` | `productIds` | Kapsamdaki ürün ID listesi |
+| `CategoryIDs` | `[]string` | `categoryIds` | Kapsamdaki kategori ID listesi |
+| `Type` | `string` | `type` | `"percent"` (yüzdelik) veya `"amount"` (sabit tutar) |
+| `AmountOff` | `string` | `amountOff` | Sabit indirim tutarı |
+| `PercentOff` | `string` | `percentOff` | Yüzdelik indirim oranı |
+| `Requirement` | `string` | `requirement` | Koşul tipi: `"amount"` (tutar) veya `"quantity"` (adet) |
+| `AmountMinimum` | `string` | `amountMinimum` | Minimum sepet tutarı eşiği |
+| `QuantityMinimum` | `int` | `quantityMinimum` | Minimum sepet ürün adedi eşiği |
+| `StartsAt` | `string` | `startsAt` | Kampanya başlangıç tarihi |
+| `ExpiresAt` | `string` | `expiresAt` | Kampanya bitiş tarihi |
+

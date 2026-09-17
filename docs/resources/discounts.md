@@ -57,3 +57,48 @@ if err != nil {
 }
 fmt.Println("Created Campaign ID:", autoDisc.ID)
 ```
+
+---
+
+## Data Models & Types
+
+### `DiscountCode` {#discountcode-model}
+
+Represents a merchant coupon code redeemed at checkout.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique discount code identifier |
+| `Code` | `string` | `code` | Customer-entered coupon string (e.g. `"SUMMER20"`) |
+| `Type` | `string` | `type` | `"percent"` or `"amount"` |
+| `AmountOff` | `string` | `amountOff` | Fixed monetary deduction if `type == "amount"` |
+| `PercentOff` | `string` | `percentOff` | Percentage discount value if `type == "percent"` |
+| `AmountMinimum` | `string` | `amountMinimum` | Minimum basket subtotal required |
+| `Currency` | `string` | `currency` | Currency code (`"TRY"`, `"USD"`, etc.) |
+| `NumAvailable` | `int` | `numAvailable` | Total usage quota limit |
+| `NumUsed` | `int` | `numUsed` | Count of completed redemptions |
+| `ExpiresAt` | `string` | `expiresAt` | Expiration date/time |
+| `DateCreated` | `string` | `dateCreated` | ISO-8601 creation timestamp |
+
+---
+
+### `AutomaticDiscount` {#automaticdiscount-model}
+
+Represents a storefront promotion applied automatically when basket conditions are met.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique campaign identifier |
+| `Title` | `string` | `title` | Campaign title |
+| `Scope` | `string` | `scope` | Target scope: `"all"`, `"selectedProducts"`, `"selectedCategories"` |
+| `ProductIDs` | `[]string` | `productIds` | Specific product IDs if `scope == "selectedProducts"` |
+| `CategoryIDs` | `[]string` | `categoryIds` | Specific category IDs if `scope == "selectedCategories"` |
+| `Type` | `string` | `type` | `"percent"` or `"amount"` |
+| `AmountOff` | `string` | `amountOff` | Fixed discount amount |
+| `PercentOff` | `string` | `percentOff` | Percentage discount |
+| `Requirement` | `string` | `requirement` | Trigger condition: `"amount"` or `"quantity"` |
+| `AmountMinimum` | `string` | `amountMinimum` | Minimum subtotal threshold |
+| `QuantityMinimum` | `int` | `quantityMinimum` | Minimum item count threshold |
+| `StartsAt` | `string` | `startsAt` | Campaign start date |
+| `ExpiresAt` | `string` | `expiresAt` | Campaign expiration date |
+

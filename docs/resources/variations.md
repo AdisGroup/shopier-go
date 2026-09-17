@@ -46,3 +46,26 @@ sel2, _ := client.Selections.Create(ctx, &shopier.SelectionCreateRequest{
 
 fmt.Printf("Variation: %s | Options: %s, %s\n", variation.Title, sel1.Title, sel2.Title)
 ```
+
+---
+
+## Data Models & Types
+
+### `Variation` {#variation-model}
+
+Represents an attribute grouping dimension (e.g., "Size", "Material", "Color").
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique variation axis identifier |
+| `Title` | `string` | `title` | Variation dimension name |
+| `Placement` | `int` | `placement` | Display ordering sequence number |
+
+---
+
+### `VariationCreateRequest` & `VariationUpdateRequest`
+
+| Field | Type | JSON Tag | Required | Description |
+| :--- | :--- | :--- | :---: | :--- |
+| `Title` | `string` | `title` | **Yes** | Variation title / attribute name |
+

@@ -23,3 +23,29 @@ for payout, err := range client.Payouts.All(ctx, nil) {
 		payout.ID, payout.Amount, payout.Currency, payout.Status, payout.Destination.IBAN)
 }
 ```
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `Payout` (Hakediş Modeli) {#hakedis-modeli-payout}
+
+Satıcının banka hesabına transfer edilen ödeme kaydını temsil eder.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Benzersiz hakediş transfer numarası |
+| `Status` | `string` | `status` | Hakediş durumu (`"pending"` veya `"paid"`) |
+| `Amount` | `string` | `amount` | Transfer edilen toplam net tutar |
+| `Currency` | `string` | `currency` | Para birimi (`"TRY"`, `"USD"` vb.) |
+| `DateCreated` | `string` | `dateCreated` | Hakediş aktarım tarihi |
+| `Destination` | `PayoutDestination` | `destination` | Aktarılan banka hesap bilgisi |
+
+---
+
+### `PayoutDestination`
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `Type` | `string` | `type` | Hesap türü (`"bankAccount"`) |
+| `IBAN` | `string` | `iban` | Maskelenmiş alıcı IBAN numarası |

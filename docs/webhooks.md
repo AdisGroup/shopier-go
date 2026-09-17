@@ -21,13 +21,42 @@ Shopier dispatches event notifications via HTTP POST to your configured Notifica
 
 | Event Constant | Event Name | Payload Model | Trigger Scenario |
 | :--- | :--- | :--- | :--- |
-| `webhook.EventOrderCreated` | `order.created` | `*shopier.Order` | A new order is paid and placed |
-| `webhook.EventOrderAddressUpdated` | `order.addressUpdated` | `*shopier.Order` | Buyer shipping address is updated |
-| `webhook.EventOrderFulfilled` | `order.fulfilled` | `*shopier.Order` | Order is closed and marked shipped |
-| `webhook.EventProductCreated` | `product.created` | `*shopier.Product` | A new product listing is published |
-| `webhook.EventProductUpdated` | `product.updated` | `*shopier.Product` | An existing product is updated |
-| `webhook.EventRefundRequested` | `refund.requested` | `*shopier.Refund` | A seller requests an order refund |
-| `webhook.EventRefundUpdated` | `refund.updated` | `*shopier.Refund` | Refund succeeds or fails |
+| `webhook.EventOrderCreated` | `order.created` | [`*shopier.Order`](/resources/orders#order-model) | A new order is paid and placed |
+| `webhook.EventOrderAddressUpdated` | `order.addressUpdated` | [`*shopier.Order`](/resources/orders#order-model) | Buyer shipping address is updated |
+| `webhook.EventOrderFulfilled` | `order.fulfilled` | [`*shopier.Order`](/resources/orders#order-model) | Order is closed and marked shipped |
+| `webhook.EventProductCreated` | `product.created` | [`*shopier.Product`](/resources/products#product-model) | A new product listing is published |
+| `webhook.EventProductUpdated` | `product.updated` | [`*shopier.Product`](/resources/products#product-model) | An existing product is updated |
+| `webhook.EventRefundRequested` | `refund.requested` | [`*shopier.Refund`](/resources/refunds#refund-model) | A seller requests an order refund |
+| `webhook.EventRefundUpdated` | `refund.updated` | [`*shopier.Refund`](/resources/refunds#refund-model) | Refund succeeds or fails |
+
+---
+
+## Webhook Event Models
+
+### `webhook.Event`
+
+```go
+type Event struct {
+	Header     Header // HTTP header metadata
+	RawPayload []byte // Raw unparsed JSON payload
+}
+```
+
+#### Helper Methods:
+- `evt.Order()` -> `(*shopier.Order, error)`: Parses payload into [`shopier.Order`](/resources/orders#order-model).
+- `evt.Product()` -> `(*shopier.Product, error)`: Parses payload into [`shopier.Product`](/resources/products#product-model).
+- `evt.Refund()` -> `(*shopier.Refund, error)`: Parses payload into [`shopier.Refund`](/resources/refunds#refund-model).
+
+### `webhook.Header`
+
+| Field | Type | Header Key | Description |
+| :--- | :--- | :--- | :--- |
+| `WebhookID` | `string` | `Shopier-Webhook-Id` | Unique notification identifier |
+| `Event` | `string` | `Shopier-Event` | Event identifier (e.g. `order.created`) |
+| `Timestamp` | `int64` | `Shopier-Timestamp` | Event dispatch time in Unix seconds (UTC) |
+| `Signature` | `string` | `Shopier-Signature` | HMAC-SHA256 signature string |
+| `AccountID` | `string` | `Shopier-Account-Id` | Associated Shopier shop account ID |
+| `APIVersion` | `string` | `Shopier-Api-Version` | API version string |
 
 ---
 

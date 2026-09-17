@@ -21,13 +21,42 @@ Shopier, mağazanızda gerçekleşen olayları (sipariş, iade, ürün değişik
 
 | Olay Sabiti | Olay Adı | Veri Modeli | Tetiklenme Anı |
 | :--- | :--- | :--- | :--- |
-| `webhook.EventOrderCreated` | `order.created` | `*shopier.Order` | Yeni bir sipariş ödendiğinde |
-| `webhook.EventOrderAddressUpdated` | `order.addressUpdated` | `*shopier.Order` | Alıcı teslimat adresi güncellendiğinde |
-| `webhook.EventOrderFulfilled` | `order.fulfilled` | `*shopier.Order` | Sipariş kargolandığında/tamamlandığında |
-| `webhook.EventProductCreated` | `product.created` | `*shopier.Product` | Yeni bir ürün yayınlandığında |
-| `webhook.EventProductUpdated` | `product.updated` | `*shopier.Product` | Mevcut ürün güncellendiğinde |
-| `webhook.EventRefundRequested` | `refund.requested` | `*shopier.Refund` | İade talebi oluşturulduğunda |
-| `webhook.EventRefundUpdated` | `refund.updated` | `*shopier.Refund` | İade onaylandığında veya reddedildiğinde |
+| `webhook.EventOrderCreated` | `order.created` | [`*shopier.Order`](/tr/resources/orders#siparis-modeli-order) | Yeni bir sipariş ödendiğinde |
+| `webhook.EventOrderAddressUpdated` | `order.addressUpdated` | [`*shopier.Order`](/tr/resources/orders#siparis-modeli-order) | Alıcı teslimat adresi güncellendiğinde |
+| `webhook.EventOrderFulfilled` | `order.fulfilled` | [`*shopier.Order`](/tr/resources/orders#siparis-modeli-order) | Sipariş kargolandığında/tamamlandığında |
+| `webhook.EventProductCreated` | `product.created` | [`*shopier.Product`](/tr/resources/products#urun-modeli-product) | Yeni bir ürün yayınlandığında |
+| `webhook.EventProductUpdated` | `product.updated` | [`*shopier.Product`](/tr/resources/products#urun-modeli-product) | Mevcut ürün güncellendiğinde |
+| `webhook.EventRefundRequested` | `refund.requested` | [`*shopier.Refund`](/tr/resources/refunds#iade-modeli-refund) | İade talebi oluşturulduğunda |
+| `webhook.EventRefundUpdated` | `refund.updated` | [`*shopier.Refund`](/tr/resources/refunds#iade-modeli-refund) | İade onaylandığında veya reddedildiğinde |
+
+---
+
+## Webhook Veri Modelleri
+
+### `webhook.Event`
+
+```go
+type Event struct {
+	Header     Header // HTTP başlık üstverileri
+	RawPayload []byte // Ham JSON gövdesi
+}
+```
+
+#### Yardımcı Ayrıştırıcı Metotlar:
+- `evt.Order()` -> `(*shopier.Order, error)`: JSON gövdesini [`shopier.Order`](/tr/resources/orders#siparis-modeli-order) modeline dönüştürür.
+- `evt.Product()` -> `(*shopier.Product, error)`: JSON gövdesini [`shopier.Product`](/tr/resources/products#urun-modeli-product) modeline dönüştürür.
+- `evt.Refund()` -> `(*shopier.Refund, error)`: JSON gövdesini [`shopier.Refund`](/tr/resources/refunds#iade-modeli-refund) modeline dönüştürür.
+
+### `webhook.Header`
+
+| Alan (Field) | Tip | HTTP Başlığı | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `WebhookID` | `string` | `Shopier-Webhook-Id` | Bildirimin benzersiz kimlik numarası |
+| `Event` | `string` | `Shopier-Event` | Olay tipi adı (örn. `order.created`) |
+| `Timestamp` | `int64` | `Shopier-Timestamp` | Saniye cinsinden UTC Unix zaman damgası |
+| `Signature` | `string` | `Shopier-Signature` | HMAC-SHA256 imza değeri |
+| `AccountID` | `string` | `Shopier-Account-Id` | İlgili mağazanın hesap kimliği |
+| `APIVersion` | `string` | `Shopier-Api-Version` | API sürüm numarası |
 
 ---
 

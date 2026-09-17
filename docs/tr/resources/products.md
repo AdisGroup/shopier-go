@@ -93,3 +93,80 @@ if err != nil {
 }
 fmt.Println("Ürün kalıcı olarak silindi.")
 ```
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `Product` (Ürün Modeli) {#urun-modeli-product}
+
+Shopier mağazasında listelenen bir ürünü temsil eder.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Benzersiz Shopier ürün numarası |
+| `Title` | `string` | `title` | Ürün başlığı |
+| `Description` | `string` | `description` | HTML/metin formatında ürün açıklaması |
+| `Type` | `string` | `type` | `"physical"` (fiziksel ürün) veya `"digital"` (dijital indirme/kod) |
+| `URL` | `string` | `url` | Ürünün doğrudan mağaza bağlantısı (`https://www.shopier.com/{magaza}/{id}`) |
+| `Media` | `[]ProductMedia` | `media` | Ürüne ait görsel ve medya dosyaları |
+| `PriceData` | [`ProductPriceData`](#productpricedata) | `priceData` | Fiyat, para birimi ve indirim bilgileri |
+| `StockStatus` | `string` | `stockStatus` | Stok durumu (`"inStock"`, `"outOfStock"`) |
+| `StockQuantity` | `int` | `stockQuantity` | Mevcut stok adedi |
+| `ShippingPayer` | `string` | `shippingPayer` | `"sellerPays"` (ücretsiz kargo) veya `"buyerPays"` (alıcı öder) |
+| `Categories` | `[]ProductCategoryRef` | `categories` | Bağlı olduğu kategori referansları |
+| `Variants` | `[]ProductVariant` | `variants` | Ürüne tanımlı varyantlar, stok ve fiyatları |
+| `Options` | `[]ProductOption` | `options` | İsteğe bağlı ekstra ürün seçenekleri |
+| `DateCreated` | `string` | `dateCreated` | ISO-8601 ürün eklenme tarihi |
+
+---
+
+### `ProductPriceData`
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `Currency` | `string` | `currency` | 3 haneli ISO para birimi kodu (`"TRY"`, `"USD"`, `"EUR"`) |
+| `Price` | `string` | `price` | Standart baz satış fiyatı (örn. `"750.00"`) |
+| `Discount` | `bool` | `discount` | İndirim aktifse `true` döner |
+| `DiscountedPrice` | `string` | `discountedPrice` | İndirimli satış fiyatı |
+| `ShippingPrice` | `string` | `shippingPrice` | Alıcı öderse sabit kargo ücreti |
+
+---
+
+### `ProductMedia`
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Medya dosya kimliği |
+| `Type` | `string` | `type` | Medya türü (`"image"`) |
+| `URL` | `string` | `url` | Görselin doğrudan CDN bağlantısı |
+| `Placement` | `int` | `placement` | Görsel sıralama indeksi (`1` = kapak görseli) |
+
+---
+
+### `ProductVariant`
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `VariationID` | `string` | `variationId` | Bağlı varyasyon seti ID'si |
+| `VariationTitle` | `string` | `variationTitle` | Varyasyon başlığı (örn. `"Beden"`, `"Renk"`) |
+| `SelectionID` | `any` | `selectionId` | Seçilen seçenek ID'si / ID dizisi |
+| `StockQuantity` | `int` | `stockQuantity` | Bu varyanta özel stok adedi |
+| `PriceData` | `*ProductPriceData` | `priceData` | Bu varyanta özel fiyat ezme (override) nesnesi |
+
+---
+
+### `ProductCreateRequest`
+
+| Alan (Field) | Tip | JSON Etiketi | Zorunlu | Açıklama |
+| :--- | :--- | :--- | :---: | :--- |
+| `Title` | `string` | `title` | **Evet** | Ürün başlığı |
+| `Type` | `string` | `type` | **Evet** | `"physical"` veya `"digital"` |
+| `PriceData` | `ProductPriceData` | `priceData` | **Evet** | Para birimi ve fiyat tanımı |
+| `ShippingPayer` | `string` | `shippingPayer` | **Evet** | `"sellerPays"` veya `"buyerPays"` |
+| `Media` | `[]ProductMedia` | `media` | **Evet** | En az bir ürün görseli |
+| `Description` | `string` | `description` | Hayır | Detaylı ürün açıklaması |
+| `StockQuantity` | `int` | `stockQuantity` | Hayır | Başlangıç stok adedi |
+| `Categories` | `[]ProductCategoryRef` | `categories` | Hayır | Bağlı kategori referansları |
+| `Variants` | `[]ProductVariant` | `variants` | Hayır | Varyant listesi |
+

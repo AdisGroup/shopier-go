@@ -56,3 +56,26 @@ if err != nil {
 	log.Fatal(err)
 }
 ```
+
+---
+
+## Data Models & Types
+
+### `Category` {#category-model}
+
+Represents a product catalog classification category.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique Shopier category ID |
+| `Title` | `string` | `title` | Category display title |
+| `Placement` | `int` | `placement` | Display ordering sequence number |
+
+---
+
+### `CategoryCreateRequest` & `CategoryUpdateRequest`
+
+| Field | Type | JSON Tag | Required | Description |
+| :--- | :--- | :--- | :---: | :--- |
+| `Title` | `string` | `title` | **Yes** | Category name / title |
+

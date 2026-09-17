@@ -82,16 +82,45 @@ if res.Pagination.HasNextPage() {
 }
 ```
 
-### `PaginationInfo` Struct
+---
 
-```go
-type PaginationInfo struct {
-	Page       int  `json:"page"`
-	Limit      int  `json:"limit"`
-	TotalPages int  `json:"total_pages"`
-	TotalItems int  `json:"total_items"`
-}
+## Data Models & Types
 
-func (p PaginationInfo) HasNextPage() bool
-func (p PaginationInfo) NextPage() int
-```
+### `PageResponse[T]` {#pageresponse-model}
+
+Generic wrapper returned by all paginated `List` endpoints.
+
+| Field | Type | Description |
+| :--- | :--- | :--- |
+| `Items` | `[]T` | Slice of typed domain models (e.g. `[]Order`, `[]Product`) |
+| `Pagination` | [`PaginationInfo`](#paginationinfo-model) | Parsed pagination metadata from response headers |
+
+---
+
+### `PaginationInfo` {#paginationinfo-model}
+
+Extracted from `Shopier-Pagination-*` HTTP response headers.
+
+| Field | Type | Header Key | Description |
+| :--- | :--- | :--- | :--- |
+| `Page` | `int` | `Shopier-Pagination-Page` | Current page number (1-based) |
+| `Limit` | `int` | `Shopier-Pagination-Limit` | Item limit per page (1 to 50) |
+| `TotalPages` | `int` | `Shopier-Pagination-Total-Pages` | Total available page count |
+| `TotalItems` | `int` | `Shopier-Pagination-Total-Items` | Total number of items across all pages |
+
+#### Helper Methods:
+- `p.HasNextPage() bool`: Returns `true` if there are further pages to fetch (`Page < TotalPages`).
+- `p.NextPage() int`: Returns the next page index (`Page + 1`), or `0` if on the final page.
+
+---
+
+### `ListOptions` {#listoptions-model}
+
+Base query filter embedded in all resource-specific query structs.
+
+| Field | Type | URL Query Param | Constraints | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `Page` | `int` | `page` | Min: `1`, Default: `1` | Targeted page number |
+| `Limit` | `int` | `limit` | Min: `1`, Max: `50`, Default: `10` | Records per page |
+| `Sort` | `string` | `sort` | `"asc"`, `"desc"` | Sort direction where applicable |
+

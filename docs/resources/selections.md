@@ -28,3 +28,37 @@ for _, sel := range res.Items {
 	fmt.Printf("[%s] %s (Variation ID: %s)\n", sel.ID, sel.Title, sel.VariationID)
 }
 ```
+
+---
+
+## Data Models & Types
+
+### `Selection` {#selection-model}
+
+Represents a specific option choice under a variation (e.g. "XL", "Navy Blue").
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique selection option identifier |
+| `Title` | `string` | `title` | Option title / value |
+| `VariationID` | `string` | `variationId` | Parent variation axis ID |
+
+---
+
+### `SelectionCreateRequest`
+
+| Field | Type | JSON Tag | Required | Description |
+| :--- | :--- | :--- | :---: | :--- |
+| `VariationID` | `string` | `variationId` | **Yes** | Target variation set ID |
+| `Title` | `string` | `title` | **Yes** | Option name |
+
+---
+
+### `SelectionListOptions`
+
+| Field | Type | URL Param | Description |
+| :--- | :--- | :--- | :--- |
+| `VariationIDs` | `[]string` | `variationId` | Filter selections by one or more variation IDs |
+| `Page` | `int` | `page` | 1-based page index |
+| `Limit` | `int` | `limit` | Records per page (default: 50) |
+

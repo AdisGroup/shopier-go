@@ -37,3 +37,36 @@ if err != nil {
 fmt.Printf("Status: %s | Tracking Number: %s (URL: %s)\n",
 	ship.Status, ship.TrackingNumber, ship.TrackingURL)
 ```
+
+---
+
+## Data Models & Types
+
+### `Shipping` {#shipping-model}
+
+Represents a Shopier contracted shipping barcode label and tracking record.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `OrderID` | `string` | `orderId` | Associated Shopier order ID |
+| `Code` | `string` | `code` | Unique contracted shipping code / barcode number |
+| `Company` | `string` | `company` | Carrier slug (`"yurtici"`, `"mng"`, `"ptt"`, `"aras"`, `"surat"`, `"ups"`) |
+| `Status` | `string` | `status` | Cargo status (`"created"`, `"inTransit"`, `"delivered"`, `"cancelled"`) |
+| `Method` | `string` | `method` | Shipping method |
+| `Type` | `string` | `type` | Shipment category |
+| `TrackingNumber` | `string` | `trackingNumber` | Carrier-assigned live tracking number |
+| `TrackingURL` | `string` | `trackingUrl` | Public carrier tracking page URL |
+| `Cost` | `string` | `cost` | Incurred shipping charge |
+| `Currency` | `string` | `currency` | Currency code (`"TRY"`) |
+| `DateCreated` | `string` | `dateCreated` | Code generation timestamp |
+| `DateDispatched` | `string` | `dateDispatched` | Carrier intake timestamp |
+
+---
+
+### `ShippingCreateRequest`
+
+| Field | Type | JSON Tag | Required | Description |
+| :--- | :--- | :--- | :---: | :--- |
+| `OrderID` | `string` | `orderId` | **Yes** | Order ID for which to generate the shipping code |
+| `Company` | `string` | `company` | **Yes** | Carrier name (`"yurtici"`, `"mng"`, `"ptt"`, `"aras"`, `"surat"`, `"ups"`) |
+

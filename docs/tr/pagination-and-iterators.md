@@ -81,3 +81,46 @@ if res.Pagination.HasNextPage() {
 	// Sonraki sayfayı isteyin...
 }
 ```
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `PageResponse[T]` {#pageresponse-model}
+
+Tüm `List` metotlarının döndürdüğü jenerik sayfalama sarmalayıcısıdır.
+
+| Alan (Field) | Tip | Açıklama |
+| :--- | :--- | :--- |
+| `Items` | `[]T` | Çekilen veri modeli dizisi (örn. `[]Order`, `[]Product`) |
+| `Pagination` | [`PaginationInfo`](#paginationinfo-model) | HTTP başlıklarından ayrıştırılan sayfalama bilgisi |
+
+---
+
+### `PaginationInfo` {#paginationinfo-model}
+
+`Shopier-Pagination-*` HTTP başlıklarından çıkarılan sayfa durum bilgisi.
+
+| Alan (Field) | Tip | HTTP Başlığı | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `Page` | `int` | `Shopier-Pagination-Page` | Mevcut sayfa indeksi (1 tabanlı) |
+| `Limit` | `int` | `Shopier-Pagination-Limit` | Sayfa başına kayıt sınırı (1 - 50) |
+| `TotalPages` | `int` | `Shopier-Pagination-Total-Pages` | Toplam sayfa sayısı |
+| `TotalItems` | `int` | `Shopier-Pagination-Total-Items` | Tüm sayfalardaki toplam kayıt sayısı |
+
+#### Yardımcı Metotlar:
+- `p.HasNextPage() bool`: Çekilecek sonraki sayfa varsa `true` döner (`Page < TotalPages`).
+- `p.NextPage() int`: Sonraki sayfa numarasını (`Page + 1`) döner; son sayfadaysa `0` döner.
+
+---
+
+### `ListOptions` {#listoptions-model}
+
+Tüm liste sorgularında ortak olan temel sayfalama parametreleri.
+
+| Alan (Field) | Tip | URL Parametresi | Sınırlar | Açıklama |
+| :--- | :--- | :--- | :--- | :--- |
+| `Page` | `int` | `page` | Min: `1`, Varsayılan: `1` | İstenen sayfa numarası |
+| `Limit` | `int` | `limit` | Min: `1`, Max: `50`, Varsayılan: `10` | Sayfa başına kayıt |
+| `Sort` | `string` | `sort` | `"asc"`, `"desc"` | Sıralama yönü |
+

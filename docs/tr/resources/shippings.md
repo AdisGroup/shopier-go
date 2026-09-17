@@ -37,3 +37,36 @@ if err != nil {
 fmt.Printf("Durum: %s | Takip No: %s (Takip Linki: %s)\n",
 	ship.Status, ship.TrackingNumber, ship.TrackingURL)
 ```
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `Shipping` (Kargo Modeli) {#kargo-modeli-shipping}
+
+Shopier anlaşmalı kargo etiketini ve kargo gönderi kaydını temsil eder.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `OrderID` | `string` | `orderId` | İlgili Shopier sipariş numarası |
+| `Code` | `string` | `code` | Anlaşmalı kargo barkod / kampanya kodu |
+| `Company` | `string` | `company` | Kargo firması (`"yurtici"`, `"mng"`, `"ptt"`, `"aras"`, `"surat"`, `"ups"`) |
+| `Status` | `string` | `status` | Kargo durumu (`"created"`, `"inTransit"`, `"delivered"`, `"cancelled"`) |
+| `Method` | `string` | `method` | Gönderi yöntemi |
+| `Type` | `string` | `type` | Gönderi türü |
+| `TrackingNumber` | `string` | `trackingNumber` | Kargo firması canlı takip numarası |
+| `TrackingURL` | `string` | `trackingUrl` | Kargo firması online takip linki |
+| `Cost` | `string` | `cost` | Satıcıya yansıyan kargo maliyeti |
+| `Currency` | `string` | `currency` | Para birimi (`"TRY"`) |
+| `DateCreated` | `string` | `dateCreated` | Kod oluşturulma tarihi |
+| `DateDispatched` | `string` | `dateDispatched` | Kargoya teslim edilme tarihi |
+
+---
+
+### `ShippingCreateRequest`
+
+| Alan (Field) | Tip | JSON Etiketi | Zorunlu | Açıklama |
+| :--- | :--- | :--- | :---: | :--- |
+| `OrderID` | `string` | `orderId` | **Evet** | Kargo kodu üretilecek sipariş numarası |
+| `Company` | `string` | `company` | **Evet** | Anlaşmalı kargo firması adı |
+

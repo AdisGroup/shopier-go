@@ -56,3 +56,26 @@ if err != nil {
 	log.Fatal(err)
 }
 ```
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `Category` (Kategori Modeli) {#kategori-modeli-category}
+
+Mağazadaki ürün gruplama kategorisini temsil eder.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Benzersiz Shopier kategori kimliği |
+| `Title` | `string` | `title` | Kategori başlığı |
+| `Placement` | `int` | `placement` | Vitrindeki sıralama numarası |
+
+---
+
+### `CategoryCreateRequest` ve `CategoryUpdateRequest`
+
+| Alan (Field) | Tip | JSON Etiketi | Zorunlu | Açıklama |
+| :--- | :--- | :--- | :---: | :--- |
+| `Title` | `string` | `title` | **Evet** | Kategori adı / başlığı |
+

@@ -50,3 +50,28 @@ if err != nil {
 	log.Fatal(err)
 }
 ```
+
+---
+
+## Data Models & Types
+
+### `WebhookSubscription` {#webhooksubscription-model}
+
+Represents a configured callback notification endpoint.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique webhook subscription ID |
+| `Event` | `string` | `event` | Subscribed event name (e.g. `"order.created"`) |
+| `URL` | `string` | `url` | Destination HTTPS callback URL |
+| `Token` | `string` | `token` | HMAC secret signing key (*only returned on initial creation*) |
+
+---
+
+### `WebhookCreateRequest`
+
+| Field | Type | JSON Tag | Required | Description |
+| :--- | :--- | :--- | :---: | :--- |
+| `Event` | `string` | `event` | **Yes** | Event name to subscribe to |
+| `URL` | `string` | `url` | **Yes** | HTTPS target destination URL |
+

@@ -46,3 +46,26 @@ sel2, _ := client.Selections.Create(ctx, &shopier.SelectionCreateRequest{
 
 fmt.Printf("Varyasyon: %s | Seçenekler: %s, %s\n", variation.Title, sel1.Title, sel2.Title)
 ```
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `Variation` (Varyasyon Modeli) {#varyasyon-modeli-variation}
+
+Ürüne atanacak özellik boyutunu (Beden, Renk, Materyal vb.) temsil eder.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Benzersiz varyasyon numarası |
+| `Title` | `string` | `title` | Varyasyon eksen adı |
+| `Placement` | `int` | `placement` | Sıralama numarası |
+
+---
+
+### `VariationCreateRequest` ve `VariationUpdateRequest`
+
+| Alan (Field) | Tip | JSON Etiketi | Zorunlu | Açıklama |
+| :--- | :--- | :--- | :---: | :--- |
+| `Title` | `string` | `title` | **Evet** | Varyasyon başlığı / nitelik adı |
+

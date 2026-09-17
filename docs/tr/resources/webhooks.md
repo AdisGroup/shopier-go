@@ -50,3 +50,28 @@ if err != nil {
 	log.Fatal(err)
 }
 ```
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `WebhookSubscription` (Webhook Abonelik Modeli) {#webhook-abonelik-modeli-webhooksubscription}
+
+Kayıtlı bir olay bildirim URL'ini temsil eder.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Benzersiz webhook abonelik kimliği |
+| `Event` | `string` | `event` | Abone olunan olay adı (örn. `"order.created"`) |
+| `URL` | `string` | `url` | Bildirimlerin iletildiği HTTPS uç noktası |
+| `Token` | `string` | `token` | HMAC imza gizli anahtarı (*yalnızca oluşturulduğunda döner*) |
+
+---
+
+### `WebhookCreateRequest`
+
+| Alan (Field) | Tip | JSON Etiketi | Zorunlu | Açıklama |
+| :--- | :--- | :--- | :---: | :--- |
+| `Event` | `string` | `event` | **Evet** | Abone olunacak olay adı |
+| `URL` | `string` | `url` | **Evet** | HTTPS hedef bildirim adresi |
+

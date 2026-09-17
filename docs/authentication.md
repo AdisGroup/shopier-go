@@ -114,3 +114,23 @@ if err != nil {
 | `oauth.ScopeRefundsWrite` | `refunds:write` | Initiate order refund requests |
 | `oauth.ScopeShopRead` | `shop:read` | Read owner details and storefront settings |
 | `oauth.ScopeShopWrite` | `shop:write` | Update storefront configuration |
+
+---
+
+## Data Models & Types
+
+### `oauth.Token` {#oauthtoken-model}
+
+Represents credentials issued by Shopier OAuth 2.0 authorization server.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `AccessToken` | `string` | `access_token` | Bearer token used to authenticate API calls |
+| `RefreshToken` | `string` | `refresh_token` | Long-lived token used to acquire new access tokens |
+| `TokenType` | `string` | `token_type` | Token type (e.g. `"Bearer"`) |
+| `ExpiresIn` | `int64` | `expires_in` | Validity period in seconds (typically `259200` = 3 days) |
+| `Scope` | `string` | `scope` | Space-delimited string of granted permission scopes |
+
+#### Helper Methods:
+- `token.Expired() bool`: Returns `true` if current time is past expiry.
+

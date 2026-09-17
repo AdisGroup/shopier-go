@@ -114,3 +114,23 @@ if err != nil {
 | `oauth.ScopeRefundsWrite` | `refunds:write` | Sipariş iade talebi başlatma |
 | `oauth.ScopeShopRead` | `shop:read` | Mağaza sahibi ve mağaza ayarlarını okuma |
 | `oauth.ScopeShopWrite` | `shop:write` | Mağaza ayarlarını güncelleme |
+
+---
+
+## Veri Modelleri ve Tipler
+
+### `oauth.Token` {#oauthtoken-model}
+
+Shopier OAuth 2.0 sunucusu tarafından üretilen kimlik doğrulama belirteç nesnesidir.
+
+| Alan (Field) | Tip | JSON Etiketi | Açıklama |
+| :--- | :--- | :--- | :--- |
+| `AccessToken` | `string` | `access_token` | API çağrılarında `Authorization: Bearer <token>` olarak iletilen erişim belirteci |
+| `RefreshToken` | `string` | `refresh_token` | Süresi dolan erişim belirtecini yenilemek için kullanılan uzun ömürlü belirteç |
+| `TokenType` | `string` | `token_type` | Belirteç türü (`"Bearer"`) |
+| `ExpiresIn` | `int64` | `expires_in` | Saniye cinsinden geçerlilik süresi (genelde `259200` = 3 gün) |
+| `Scope` | `string` | `scope` | Boşlukla ayrılmış yetkilendirilmiş izin kapsamları listesi |
+
+#### Yardımcı Metotlar:
+- `token.Expired() bool`: Belirtecin geçerlilik süresinin dolup dolmadığını kontrol eder.
+

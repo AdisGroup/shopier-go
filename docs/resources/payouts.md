@@ -20,6 +20,32 @@ for payout, err := range client.Payouts.All(ctx, nil) {
 		log.Fatal(err)
 	}
 	fmt.Printf("[%s] %s %s - Status: %s (IBAN: %s)\n",
-		payout.ID, payout.Amount, payout.Currency, payout.Status, payout.Destination.IBAN)
+	payout.ID, payout.Amount, payout.Currency, payout.Status, payout.Destination.IBAN)
 }
 ```
+
+---
+
+## Data Models & Types
+
+### `Payout` {#payout-model}
+
+Represents a bank settlement disbursement transferred to the merchant.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique payout transfer ID |
+| `Status` | `string` | `status` | Payout status (`"pending"` or `"paid"`) |
+| `Amount` | `string` | `amount` | Transferred total amount |
+| `Currency` | `string` | `currency` | Currency code (`"TRY"`, `"USD"`, etc.) |
+| `DateCreated` | `string` | `dateCreated` | ISO-8601 disbursement date |
+| `Destination` | `PayoutDestination` | `destination` | Receiving bank destination details |
+
+---
+
+### `PayoutDestination`
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `Type` | `string` | `type` | Destination category (`"bankAccount"`) |
+| `IBAN` | `string` | `iban` | Masked destination IBAN string |

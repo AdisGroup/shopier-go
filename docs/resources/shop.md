@@ -38,3 +38,43 @@ if err != nil {
 
 fmt.Println("Store Title:", updated.Title)
 ```
+
+---
+
+## Data Models & Types
+
+### `ShopOwner` {#shopowner-model}
+
+Represents identity, contact, and bank settlement details of the merchant.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique shop owner ID |
+| `Type` | `string` | `type` | Account type (`"personal"` or `"business"`) |
+| `FirstName` | `string` | `firstName` | Owner given name |
+| `LastName` | `string` | `lastName` | Owner surname |
+| `Contact` | `ShopOwnerContact` | `contact` | Address and telephone details |
+| `Company` | `*ShopOwnerCompany` | `company` | Legal entity registration if business |
+| `BankAccount` | `ShopOwnerBankAccount` | `bankAccount` | Registered settlement payout IBAN |
+
+---
+
+### `ShopSettings` {#shopsettings-model}
+
+Encapsulates public storefront display and behavior configuration.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `Name` | `string` | `name` | Shop slug/subdomain (e.g. `"adisgroup"`) |
+| `URL` | `string` | `url` | Full storefront URL |
+| `Title` | `string` | `title` | Public shop title |
+| `Slogan` | `string` | `slogan` | Shop slogan |
+| `Announcement` | `string` | `announcement` | Top banner announcement text |
+| `Email` | `string` | `email` | Customer service email |
+| `Phone` | `string` | `phone` | Customer service phone |
+| `Language` | `string` | `language` | Storefront language (`"TR"` or `"EN"`) |
+| `Vacation` | `bool` | `vacation` | `true` if shop is temporarily paused in vacation mode |
+| `Cart` | `bool` | `cart` | Multi-product shopping cart enabled |
+| `MobileView` | `string` | `mobileView` | `"singleColumn"` or `"doubleColumn"` |
+| `OutOfStock` | `bool` | `outOfStock` | Allow display of out-of-stock items |
+

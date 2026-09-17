@@ -76,3 +76,108 @@ fmt.Printf("Gross: %s %s | Fee: %s %s | Net: %s %s\n",
 	tx.Net.Amount, tx.Net.Currency,
 )
 ```
+
+---
+
+## Data Models & Types
+
+### `Order` {#order-model}
+
+Represents an order placed on a Shopier storefront.
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ID` | `string` | `id` | Unique Shopier order identifier (e.g. `"123456789"`) |
+| `Status` | `string` | `status` | Fulfillment status (`"unfulfilled"`, `"fulfilled"`, `"cancelled"`) |
+| `PaymentStatus` | `string` | `paymentStatus` | Payment status (`"success"`, `"failed"`, `"pending"`) |
+| `Installments` | `bool` | `installments` | `true` if paid via credit card installments |
+| `DateCreated` | `string` | `dateCreated` | ISO-8601 creation timestamp |
+| `Currency` | `string` | `currency` | 3-letter ISO currency code (`"TRY"`, `"USD"`, `"EUR"`) |
+| `PaymentMethod` | `string` | `paymentMethod` | Method used (`"credit_card"`, etc.) |
+| `Totals` | [`OrderTotals`](#ordertotals) | `totals` | Price breakdown and order sum |
+| `Discounts` | `[]OrderDiscount` | `discounts` | Applied discount vouchers or automatic discounts |
+| `ShippingInfo` | [`OrderShippingInfo`](#ordershippinginfo) | `shippingInfo` | Delivery address and recipient contact details |
+| `BillingInfo` | `*OrderBillingInfo` | `billingInfo` | Invoicing information (corporate or individual) |
+| `Note` | `string` | `note` | Optional customer note left during checkout |
+| `LineItems` | `[]OrderLineItem` | `lineItems` | Purchased products, selected variants, and quantities |
+
+---
+
+### `OrderTotals`
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `Subtotal` | `string` | `subtotal` | Sum of item prices before discounts/shipping (e.g. `"200.00"`) |
+| `Shipping` | `string` | `shipping` | Shipping cost charged to buyer (e.g. `"25.00"`) |
+| `Discount` | `string` | `discount` | Total discount amount deducted (e.g. `"20.00"`) |
+| `Total` | `string` | `total` | Final payable amount (e.g. `"205.00"`) |
+
+---
+
+### `OrderShippingInfo`
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `FirstName` | `string` | `firstName` | Recipient given name |
+| `LastName` | `string` | `lastName` | Recipient surname |
+| `NationalID` | `string` | `nationalId` | TC Identity Number (Turkiye) or passport number |
+| `Email` | `string` | `email` | Buyer email address |
+| `Phone` | `string` | `phone` | Recipient phone number (e.g. `"05551234567"`) |
+| `Company` | `string` | `company` | Optional company name |
+| `Address` | `string` | `address` | Street address line |
+| `District` | `string` | `district` | District / neighborhood |
+| `City` | `string` | `city` | City / province |
+| `State` | `string` | `state` | State / province (international) |
+| `Postcode` | `string` | `postcode` | Postal / zip code |
+| `Country` | `string` | `country` | 2-letter ISO country code (`"TR"`, `"US"`) |
+
+---
+
+### `OrderBillingInfo`
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `FirstName` | `string` | `firstName` | Invoicing given name |
+| `LastName` | `string` | `lastName` | Invoicing surname |
+| `TaxOffice` | `string` | `taxOffice` | Corporate tax administration office |
+| `TaxNumber` | `string` | `taxNumber` | Corporate tax identification number |
+| `Address` | `string` | `address` | Official billing street address |
+| `City` | `string` | `city` | Billing city |
+| `Country` | `string` | `country` | Billing country |
+
+---
+
+### `OrderLineItem`
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `ProductID` | `string` | `productId` | Shopier product ID |
+| `Title` | `string` | `title` | Product title at the time of purchase |
+| `Type` | `string` | `type` | `"physical"` or `"digital"` |
+| `Quantity` | `int` | `quantity` | Number of units purchased |
+| `Price` | `string` | `price` | Unit price in store currency |
+| `Selection` | `[]OrderLineItemSelection` | `selection` | Chosen variant attributes (size, color, etc.) |
+| `Options` | `[]OrderLineItemOption` | `options` | Extra customized options |
+
+---
+
+### `OrderUpdateRequest`
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `Fulfillments` | `*OrderFulfillments` | `fulfillments` | Tracking carrier (`"yurtici"`, `"mng"`, `"ptt"`, `"aras"`, `"surat"`, `"ups"`, `"dhl"`) and tracking number |
+| `ShippingInfo` | `*OrderShippingInfo` | `shippingInfo` | Updated destination delivery address |
+
+---
+
+### `OrderTransaction`
+
+| Field | Type | JSON Tag | Description |
+| :--- | :--- | :--- | :--- |
+| `OrderID` | `string` | `orderId` | Associated order identifier |
+| `Type` | `string` | `type` | Transaction type (`"sale"`, `"refund"`) |
+| `DateCreated` | `string` | `dateCreated` | Settlement creation timestamp |
+| `Gross` | `TransactionAmount` | `gross` | Total transaction amount paid by buyer |
+| `Fee` | `TransactionFee` | `fee` | Shopier commission and service deduction |
+| `Net` | `TransactionAmount` | `net` | Net payable balance deposited to merchant |
+
