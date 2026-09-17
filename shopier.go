@@ -43,18 +43,19 @@ type Client struct {
 	userAgent         string
 
 	// Resource services
-	Balance    *BalanceService
-	Categories *CategoryService
-	Discounts  *DiscountService
-	Orders     *OrderService
-	Payouts    *PayoutService
-	Products   *ProductService
-	Refunds    *RefundService
-	Selections *SelectionService
-	Shippings  *ShippingService
-	Shop       *ShopService
-	Variations *VariationService
-	Webhooks   *WebhookService
+	Balance       *BalanceService
+	Categories    *CategoryService
+	Discounts     *DiscountService
+	Orders        *OrderService
+	Payouts       *PayoutService
+	Products      *ProductService
+	Refunds       *RefundService
+	Selections    *SelectionService
+	Shippings     *ShippingService
+	Shop          *ShopService
+	Variations    *VariationService
+	Webhooks      *WebhookService
+	QuickCheckout *QuickCheckoutService
 }
 
 // NewClient returns a configured Shopier API client.
@@ -98,6 +99,10 @@ func NewClient(token string, opts ...Option) (*Client, error) {
 	c.Shop = &ShopService{client: c}
 	c.Variations = &VariationService{client: c}
 	c.Webhooks = &WebhookService{client: c}
+	c.QuickCheckout = NewQuickCheckoutService(
+		WithQuickCheckoutHTTPClient(c.httpClient),
+		WithQuickCheckoutTimeout(c.timeout),
+	)
 
 	return c, nil
 }

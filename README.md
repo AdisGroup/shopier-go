@@ -93,6 +93,47 @@ func main() {
 | **Refunds** | `client.Refunds` | `List`, `All`, `Get`, `Create` |
 | **Shop** | `client.Shop` | `GetOwner`, `GetSettings`, `UpdateSettings` |
 | **Webhooks** | `client.Webhooks` | `List`, `Create`, `Delete` |
+| **QuickCheckout** | `client.QuickCheckout` | `Create` (Generates direct payment link) |
+
+---
+
+## Direct Payment Link (Quick Checkout)
+
+Generate direct customer payment links (`https://www.shopier.com/s/payment/{account}/{order_id}`) by processing the checkout flow without needing an API token:
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/AdisGroup/shopier-go"
+)
+
+func main() {
+	qc := shopier.NewQuickCheckoutService()
+
+	result, err := qc.Create(context.Background(), &shopier.QuickCheckoutRequest{
+		ProductURL: "https://www.shopier.com/adisgroup/50900391",
+		Quantity:   1,
+		Buyer: shopier.QuickCheckoutBuyer{
+			Email:     "buyer@example.com",
+			FirstName: "Ahmet",
+			LastName:  "Yılmaz",
+			Phone:     "+90 532 111 22 33",
+			Country:   "Türkiye",
+			City:      "İstanbul",
+		},
+	})
+	if err != nil {
+		log.Fatalf("Quick checkout failed: %v", err)
+	}
+
+	fmt.Printf("Direct Payment URL: %s\n", result.PaymentURL)
+}
+```
 
 ---
 
@@ -175,6 +216,8 @@ Runnable example code is located in the [`examples/`](examples) directory:
 - [`examples/02_oauth_flow`](examples/02_oauth_flow): Full OAuth2 consent, code exchange, and store inspection.
 - [`examples/03_webhook_receiver`](examples/03_webhook_receiver): Webhook receiver with signature verification.
 - [`examples/04_iterators`](examples/04_iterators): Streaming items with Go 1.23+ Range-over-func iterators.
+- [`examples/05_quick_checkout`](examples/05_quick_checkout): Generating direct checkout and payment URLs with isolated sessions.
+
 
 ---
 
@@ -308,9 +351,13 @@ Every endpoint, resource model, webhook event, and authentication method specifi
 - [x] `03_webhooks/01_webhook-configuration.md` &mdash; Webhook subscription management & `http.Handler` integration ([`webhook/handler.go`](webhook/handler.go), [`webhooks.go`](webhooks.go))
 - [x] `03_webhooks/02_events-headers-payloads.md` &mdash; Header extraction, HS256 HMAC verification, and Event unmarshaling ([`webhook/verify.go`](webhook/verify.go), [`webhook/events.go`](webhook/events.go))
 
+### 5. Unofficial Extensions
+- [x] Direct Payment Link & Cart Automation &mdash; 4-step frontend session with isolated cookie jars ([`quick_checkout.go`](quick_checkout.go), [`examples/05_quick_checkout/main.go`](examples/05_quick_checkout/main.go))
+
 ---
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 

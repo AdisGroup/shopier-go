@@ -79,7 +79,8 @@ export default defineConfig({
               { text: 'Payouts', link: '/resources/payouts' },
               { text: 'Refunds', link: '/resources/refunds' },
               { text: 'Shop Settings', link: '/resources/shop' },
-              { text: 'Webhooks Subscriptions', link: '/resources/webhooks' }
+              { text: 'Webhooks Subscriptions', link: '/resources/webhooks' },
+              { text: 'Quick Checkout (Direct Link)', link: '/resources/quick-checkout' }
             ]
           }
         ]
@@ -127,7 +128,8 @@ export default defineConfig({
               { text: 'Hakedişler (Payouts)', link: '/tr/resources/payouts' },
               { text: 'İadeler (Refunds)', link: '/tr/resources/refunds' },
               { text: 'Mağaza Ayarları (Shop)', link: '/tr/resources/shop' },
-              { text: 'Webhook Abonelikleri', link: '/tr/resources/webhooks' }
+              { text: 'Webhook Abonelikleri', link: '/tr/resources/webhooks' },
+              { text: 'Hızlı Ödeme (Quick Checkout)', link: '/tr/resources/quick-checkout' }
             ]
           }
         ]
@@ -135,3 +137,4 @@ export default defineConfig({
     }
   }
 })
+
