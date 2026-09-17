@@ -2,6 +2,12 @@
 
 Ürün servisi, mağazanızdaki ürünlerin listelenmesini, yeni ürün eklenmesini, fiyat/stok/medya güncellemelerini ve ürün silme işlemlerini yönetir.
 
+::: warning Ürün API Yetkilendirmesi (403 Forbidden)
+Kişisel Erişim Jetonunuzda (PAT) veya API anahtarınızda `products:read` ve `products:write` yetkileri seçili olsa dahi, `/v1/products` uç noktaları (`List`, `Get`, `Create`, `Update`, `Delete`) varsayılan olarak `403 Forbidden` (*"Access to this resource on the server is denied"*) yanıtı dönebilir.
+
+Shopier resmi dokümantasyonuna göre ürün katalog yönetimi ek mağaza onayı gerektirmektedir. Mağazanız için ürün uç noktalarını aktif ettirmek amacıyla mağaza bağlantınızla (`https://www.shopier.com/{magaza-adiniz}`) birlikte [hello@shopier.com](mailto:hello@shopier.com) adresine e-posta gönderebilirsiniz.
+:::
+
 ## Metotlar
 
 - `client.Products.List(ctx, opts)` -> `(*PageResponse[Product], error)`

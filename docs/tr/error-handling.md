@@ -48,6 +48,19 @@ if err != nil {
 
 ---
 
+## Sık Karşılaşılan HTTP Hata Kodları
+
+| Durum Kodu | Hata Tipi | Neden ve Çözüm |
+| :--- | :--- | :--- |
+| `400 Bad Request` | `invalid_request` / `validation_failed` | Eksik veya hatalı istek parametresi. İstek nesnesi alanlarını kontrol edin. |
+| `401 Unauthorized` | `unauthorized` | API jetonu / PAT eksik, hatalı veya süresi dolmuş. |
+| `403 Forbidden` | `forbidden` | Jeton yetkileri yetersiz veya uç nokta (örn. `/v1/products`) mağaza onayına tabi. `hello@shopier.com` ile iletişime geçin. |
+| `404 Not Found` | `not_found` | İstenen kaynak (sipariş ID, ürün ID vb.) bulunamadı. |
+| `429 Too Many Requests` | `rate_limit_exceeded` | İstek kotası aşıldı (200 istek/dk). SDK tarafından otomatik olarak bekletilip yeniden denenir. |
+| `500 / 503 / 504` | `server_error` | Shopier sunucu kesintisi veya aşırı yüklenme. Exponential backoff ile otomatik yinelenir. |
+
+---
+
 ## Rate Limit (İstek Limiti) Politikası
 
 Shopier API çağrılarını **60 saniyelik kayan pencere (sliding window)** içinde sınırlar:

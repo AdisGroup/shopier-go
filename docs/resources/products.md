@@ -2,6 +2,12 @@
 
 The Products API manages merchandise listings, media images, pricing tiers, stock status, and variations.
 
+::: warning Product Catalog API Access (403 Forbidden)
+By default, access to `/v1/products` endpoints (`List`, `Get`, `Create`, `Update`, `Delete`) may return `403 Forbidden` (*"Access to this resource on the server is denied"*) even if your Personal Access Token includes `products:read` and `products:write` scopes.
+
+As documented in Shopier's API reference, product catalog endpoints require additional store-level activation. To enable product endpoints for your store, contact Shopier developer support at [hello@shopier.com](mailto:hello@shopier.com) with your store URL (`https://www.shopier.com/{your-store}`).
+:::
+
 ## Methods
 
 - `client.Products.List(ctx, opts)` -> `(*PageResponse[Product], error)`

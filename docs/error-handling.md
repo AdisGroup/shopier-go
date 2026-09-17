@@ -48,6 +48,19 @@ if err != nil {
 
 ---
 
+## Common HTTP Error Codes
+
+| Status Code | Error Type | Cause & Resolution |
+| :--- | :--- | :--- |
+| `400 Bad Request` | `invalid_request` / `validation_failed` | One or more parameters are missing or invalid. Check request struct fields. |
+| `401 Unauthorized` | `unauthorized` | The API token / PAT is missing, malformed, or expired. |
+| `403 Forbidden` | `forbidden` | The token lacks necessary scopes, or the endpoint (e.g. `/v1/products`) requires store-level permission. Contact `hello@shopier.com`. |
+| `404 Not Found` | `not_found` | The requested entity (order ID, product ID, etc.) does not exist. |
+| `429 Too Many Requests` | `rate_limit_exceeded` | Sliding window quota reached (200 req/min). Automatically retried by the SDK. |
+| `500 / 503 / 504` | `server_error` | Temporary Shopier backend downtime. Automatically retried with exponential backoff. |
+
+---
+
 ## Rate Limit Policy
 
 Shopier limits API throughput on a **60-second sliding window**:
